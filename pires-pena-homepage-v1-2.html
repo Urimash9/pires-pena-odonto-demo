@@ -715,7 +715,7 @@ section[id],
         desktop: 'M -30 8 C 250 76 818 76 1098 8',
         mobile: 'M -30 7 C 245 57 823 57 1098 7'
       },
-      bracketCount: { desktop: 10, mobile: 7 },
+      bracketCount: { desktop: 18, mobile: 13 },
       behavior: 'reveal-hold-fade'
     }
   ];
@@ -748,6 +748,8 @@ section[id],
 
   const configure = force => {
     const isCompact = innerWidth <= 680;
+    const bracketSpacingPx = isCompact ? 30 : 54;
+    const frontGapPx = isCompact ? 5 : 8;
     if (!force && compact === isCompact) return;
     compact = isCompact;
 
@@ -760,7 +762,12 @@ section[id],
       brackets.replaceChildren(...Array.from({ length: motion.bracketCount[mode] }, (_, index) => createBracket(index, isCompact)));
 
       const length = wire.getTotalLength();
+      const viewBoxWidth = motion.element.viewBox.baseVal.width;
+      const renderedWidth = motion.element.getBoundingClientRect().width || viewBoxWidth;
+      const svgUnitsPerPixel = viewBoxWidth / renderedWidth;
       motion.length = length;
+      motion.bracketSpacing = bracketSpacingPx * svgUnitsPerPixel / length;
+      motion.frontGap = frontGapPx * svgUnitsPerPixel / length;
       motion.wire = wire;
       motion.highlight = highlight;
       motion.assembly = motion.element.querySelector('.braces-assembly');
@@ -794,18 +801,16 @@ section[id],
 
   const drawMovingWindow = (motion, progress) => {
     const trail = compact ? .50 : .44;
-    const frontGap = .025;
     const immediateProgress = Math.pow(progress, .55);
     const head = Math.min(1, immediateProgress * 1.16);
     const tail = Math.max(0, head - trail);
-    const spacing = (trail - frontGap * 2) / (motion.brackets.length - 1);
     const fadeOut = clamp((1 - progress) / .08);
 
     motion.element.style.opacity = progress > 0 ? fadeOut : 0;
     motion.assembly.setAttribute('transform', `translate(${(1 - progress) * -8} 0)`);
     setWire(motion, tail, head);
     motion.brackets.forEach(bracket => {
-      const position = head - frontGap - Number(bracket.dataset.index) * spacing;
+      const position = head - motion.frontGap - Number(bracket.dataset.index) * motion.bracketSpacing;
       const inWindow = position >= tail && position <= head && position >= 0 && position <= 1;
       placeBracket(motion, bracket, position);
       bracket.style.opacity = inWindow ? fadeOut : 0;
@@ -816,15 +821,13 @@ section[id],
     const revealEnd = .58;
     const holdEnd = .80;
     const head = clamp(progress / revealEnd);
-    const frontGap = .01;
-    const spacing = (1 - frontGap * 2) / (motion.brackets.length - 1);
     const fadeOut = progress <= holdEnd ? 1 : clamp((1 - progress) / (1 - holdEnd));
 
     motion.element.style.opacity = progress > 0 ? fadeOut : 0;
     motion.assembly.setAttribute('transform', `translate(${(1 - head) * -36} 0)`);
     setWire(motion, 0, head);
     motion.brackets.forEach(bracket => {
-      const position = head - frontGap - Number(bracket.dataset.index) * spacing;
+      const position = head - motion.frontGap - Number(bracket.dataset.index) * motion.bracketSpacing;
       const onPath = position >= 0 && position <= 1;
       placeBracket(motion, bracket, position);
       bracket.style.opacity = onPath ? fadeOut : 0;
