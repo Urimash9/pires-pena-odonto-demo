@@ -107,6 +107,10 @@
     .stars{color:#dba437;letter-spacing:.12em;font-size:18px}
     .review p{font-size:14px;line-height:1.6;color:var(--muted)}
     .review b{font-size:14px}
+    .review-source{display:block;margin-top:4px;font-size:12px;color:var(--muted)}
+    .reviews-link{display:inline-block;margin-top:20px;color:var(--green);font-size:13px;font-weight:700;transition:opacity .2s ease}
+    .reviews-link:hover{opacity:.78;text-decoration:underline;text-underline-offset:3px}
+    .reviews-link:focus-visible,footer a:focus-visible{outline:2px solid var(--green);outline-offset:4px;border-radius:2px}
 
     .cta-wrap{padding:0 56px 54px;background:var(--paper-alt)}
     .cta{background:linear-gradient(90deg,var(--green) 0%,var(--green-2) 55%,rgba(31,117,110,.38) 100%),url('https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1800&q=85') center/cover;border-radius:24px;padding:46px;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:30px}
@@ -705,17 +709,18 @@ section[id],
     </section>
 
     <section class="clinic" id="clinica">
-      <div><div class="eyebrow">Nossa estrutura</div><h2 class="serif">Um ambiente moderno e acolhedor para você.</h2><p>Uma experiência de atendimento que combina conforto, organização e tecnologia em cada detalhe.</p><a class="btn" href="#contato">Conhecer a clínica →</a></div>
+      <div><div class="eyebrow">Nossa estrutura</div><h2 class="serif">Um ambiente moderno e acolhedor para você.</h2><p>Uma experiência de atendimento que combina conforto, organização e tecnologia em cada detalhe.</p><a class="btn" href="https://maps.app.goo.gl/mTHAwEoLNYieWk5F6" target="_blank" rel="noopener noreferrer" aria-label="Abrir localização da Pires Pena Odontologia no Google Maps">Conhecer a clínica →</a></div>
       <div class="clinic-strip"><img src="assets/images/clinica-consultorio.png" alt="Consultório"><img src="assets/images/clinica-recepcao.png" alt="Recepção"><img src="assets/images/clinica-corredor.png" alt="Detalhes"><img src="assets/images/clinica-fachada.png" alt="Corredor da clínica"></div>
     </section>
 
     <section class="reviews" id="depoimentos">
       <div class="eyebrow">Depoimentos</div><h2 class="serif">A confiança de quem já viveu essa experiência.</h2>
       <div class="review-grid">
-        <article class="review"><div class="stars">★★★★★</div><p>Espaço reservado para uma avaliação real da clínica.</p><b>Avaliação Google</b></article>
-        <article class="review"><div class="stars">★★★★★</div><p>Espaço reservado para uma avaliação real da clínica.</p><b>Avaliação Google</b></article>
-        <article class="review"><div class="stars">★★★★★</div><p>Espaço reservado para uma avaliação real da clínica.</p><b>Avaliação Google</b></article>
+        <article class="review"><div class="stars" aria-label="5 estrelas">★★★★★</div><p>Melhor atendimento, profissionais de qualidade, super indico!</p><b>Diego Ferreira</b><span class="review-source">Google · 5 estrelas</span></article>
+        <article class="review"><div class="stars" aria-label="5 estrelas">★★★★★</div><p>Ótimos profissionais, excelente atendimento, material tudo de primeira,indico muito</p><b>Janaina Mazzutti</b><span class="review-source">Google · 5 estrelas</span></article>
+        <article class="review"><div class="stars" aria-label="5 estrelas">★★★★★</div><p>Lugar muito bem equipado, ótimos profissionais, qualidade no atendimento e serviço muito bem feito. Recomendo!</p><b>Mateus Araújo Caetano</b><span class="review-source">Google · 5 estrelas</span></article>
       </div>
+      <a class="reviews-link" href="https://maps.app.goo.gl/mTHAwEoLNYieWk5F6" target="_blank" rel="noopener noreferrer" aria-label="Ver avaliações da Pires Pena Odontologia no Google Maps">Ver avaliações no Google →</a>
     </section>
 
     <div class="cta-wrap" id="contato">
@@ -743,10 +748,10 @@ section[id],
   <footer>
     <div><div class="brand"><span class="brand-mark">P</span><span>PIRES PENA<small>ODONTOLOGIA</small></span></div></div>
     <div><h4>Links rápidos</h4><p><a href="#inicio">Início</a><br><a href="#tratamentos">Tratamentos</a><br><a href="#profissionais">Profissionais</a><br><a href="#clinica">Clínica</a><br><a href="#contato">Contato</a></p></div>
-    <div><h4>Contato</h4><p>(34) 99897-2712<br>(34) 99200-6867<br>Coromandel - MG</p></div>
+    <div><h4>Contato</h4><p>(34) 99897-2712<br>(34) 99200-6867<br><a href="https://maps.app.goo.gl/mTHAwEoLNYieWk5F6" target="_blank" rel="noopener noreferrer" aria-label="Abrir localização da Pires Pena Odontologia no Google Maps">Coromandel - MG</a></p></div>
     <div><h4>Instagram</h4><p><a href="https://www.instagram.com/pirespenaodontologia?stkn=dTRxZjF1bnJzMHN1" target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram da Pires Pena Odontologia">@pirespenaodontologia</a></p></div>
   </footer>
-  <div class="copyright">© 2026 Pires Pena Odontologia · Homepage conceito V1.2</div>
+  <div class="copyright">© 2026 Pires Pena Odontologia</div>
 </div>
 <script>
 (() => {
