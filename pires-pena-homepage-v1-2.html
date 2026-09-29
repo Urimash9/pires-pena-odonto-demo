@@ -93,6 +93,9 @@
     .doctor p{font-size:14px;line-height:1.6;color:var(--muted)}
     .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
     .chip{background:var(--soft);border:1px solid color-mix(in srgb,var(--sage-soft) 38%,transparent);padding:8px 11px;border-radius:999px;font-size:12px;color:var(--green)}
+    .professional-link{display:inline-block;margin-top:16px;color:var(--green);font-size:13px;font-weight:700;transition:opacity .2s ease}
+    .professional-link:hover{opacity:.78;text-decoration:underline;text-underline-offset:3px}
+    .professional-link:focus-visible{outline:2px solid var(--green);outline-offset:4px;border-radius:2px}
 
     .clinic{display:grid;grid-template-columns:36% 64%;gap:32px;align-items:center}
     .clinic-strip{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:10px}
@@ -618,7 +621,7 @@ section[id],
       <nav>
         <a href="#inicio">Início</a><a href="#tratamentos">Tratamentos</a><a href="#profissionais">Profissionais</a><a href="#clinica">Clínica</a><a href="#contato">Contato</a>
       </nav>
-      <div class="nav-actions"><a class="btn primary" href="https://wa.me/5534998972712" target="_blank" rel="noopener">Agendar avaliação →</a><span class="hamb">☰</span></div>
+      <div class="nav-actions"><a class="btn primary" href="https://wa.me/5534998972712" target="_blank" rel="noopener noreferrer" aria-label="Agendar avaliação pelo WhatsApp">Agendar avaliação →</a><span class="hamb">☰</span></div>
     </div>
   </header>
 
@@ -629,7 +632,7 @@ section[id],
         <h1 class="serif"><span>Seu sorriso com</span> <span>técnica, estética</span> <span>e cuidado.</span></h1>
         <p>Atendimento humanizado e excelência odontológica para você se sentir bem em todas as fases da vida.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="https://wa.me/5534998972712" target="_blank" rel="noopener">Agendar pelo WhatsApp →</a>
+          <a class="btn primary" href="https://wa.me/5534998972712" target="_blank" rel="noopener noreferrer" aria-label="Agendar pelo WhatsApp">Agendar pelo WhatsApp →</a>
           <a class="btn" href="#tratamentos">Conhecer tratamentos</a>
         </div>
         <div class="hero-social">
@@ -692,11 +695,11 @@ section[id],
       <div class="doctor-grid">
         <article class="doctor">
           <img src="assets/images/profissional-maria-fernanda.png" alt="Dra. Maria Fernanda Silva Pires">
-          <div class="doctor-copy"><h3>Dra. Maria Fernanda<br>Silva Pires</h3><div class="cro">CRO-MG 65643 · Cirurgiã-Dentista</div><p>Atendimento humanizado, atenção aos detalhes e cuidado com a saúde e a autoestima do paciente.</p><div class="chips"><span class="chip">Clareamento</span><span class="chip">Restaurações</span><span class="chip">Estética Dental</span><span class="chip">Harmonização Facial</span></div></div>
+          <div class="doctor-copy"><h3>Dra. Maria Fernanda<br>Silva Pires</h3><div class="cro">CRO-MG 65643 · Cirurgiã-Dentista</div><p>Atendimento humanizado, atenção aos detalhes e cuidado com a saúde e a autoestima do paciente.</p><div class="chips"><span class="chip">Clareamento</span><span class="chip">Restaurações</span><span class="chip">Estética Dental</span><span class="chip">Harmonização Facial</span></div><a class="professional-link" href="https://whatsss.link/m3nx4z" target="_blank" rel="noopener noreferrer" aria-label="Conhecer perfil da Dra. Maria Fernanda Silva Pires">Conhecer perfil →</a></div>
         </article>
         <article class="doctor">
           <img src="assets/images/profissional-gustavo.png" alt="Dr. Gustavo Pena">
-          <div class="doctor-copy"><h3>Dr. Gustavo Pena</h3><div class="cro">CRO-MG 66205 · Cirurgião-Dentista</div><p>Atuação voltada a tratamentos funcionais, cirúrgicos e reabilitadores, com planejamento individualizado.</p><div class="chips"><span class="chip">Implantes Dentários</span><span class="chip">Próteses</span><span class="chip">Cirurgias</span><span class="chip">Reabilitação Oral</span></div></div>
+          <div class="doctor-copy"><h3>Dr. Gustavo Pena</h3><div class="cro">CRO-MG 66205 · Cirurgião-Dentista</div><p>Atuação voltada a tratamentos funcionais, cirúrgicos e reabilitadores, com planejamento individualizado.</p><div class="chips"><span class="chip">Implantes Dentários</span><span class="chip">Próteses</span><span class="chip">Cirurgias</span><span class="chip">Reabilitação Oral</span></div><a class="professional-link" href="https://whatsss.link/u9k2af" target="_blank" rel="noopener noreferrer" aria-label="Conhecer perfil do Dr. Gustavo Pena">Conhecer perfil →</a></div>
         </article>
       </div>
     </section>
@@ -716,7 +719,7 @@ section[id],
     </section>
 
     <div class="cta-wrap" id="contato">
-      <section class="cta"><div><div class="eyebrow" style="color:#cce4df">Seu sorriso em boas mãos</div><h2 class="serif">Pronto para cuidar do seu sorriso?</h2><p>Converse com a equipe e agende sua avaliação.</p></div><a class="btn" href="https://wa.me/5534998972712" target="_blank" rel="noopener">Agendar pelo WhatsApp →</a></section>
+      <section class="cta"><div><div class="eyebrow" style="color:#cce4df">Seu sorriso em boas mãos</div><h2 class="serif">Pronto para cuidar do seu sorriso?</h2><p>Converse com a equipe e agende sua avaliação.</p></div><a class="btn" href="https://wa.me/5534998972712" target="_blank" rel="noopener noreferrer" aria-label="Agendar pelo WhatsApp">Agendar pelo WhatsApp →</a></section>
       <svg class="final-braces-motion" viewBox="0 0 1068 70" preserveAspectRatio="none" aria-hidden="true">
         <defs>
             <linearGradient id="final-wire-metal" x1="0" y1="0" x2="0" y2="1">
@@ -741,7 +744,7 @@ section[id],
     <div><div class="brand"><span class="brand-mark">P</span><span>PIRES PENA<small>ODONTOLOGIA</small></span></div></div>
     <div><h4>Links rápidos</h4><p><a href="#inicio">Início</a><br><a href="#tratamentos">Tratamentos</a><br><a href="#profissionais">Profissionais</a><br><a href="#clinica">Clínica</a><br><a href="#contato">Contato</a></p></div>
     <div><h4>Contato</h4><p>(34) 99897-2712<br>(34) 99200-6867<br>Coromandel - MG</p></div>
-    <div><h4>Instagram</h4><p><a href="https://www.instagram.com/pirespenaodontologia/" target="_blank" rel="noopener">@pirespenaodontologia</a></p></div>
+    <div><h4>Instagram</h4><p><a href="https://www.instagram.com/pirespenaodontologia?stkn=dTRxZjF1bnJzMHN1" target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram da Pires Pena Odontologia">@pirespenaodontologia</a></p></div>
   </footer>
   <div class="copyright">© 2026 Pires Pena Odontologia · Homepage conceito V1.2</div>
 </div>
