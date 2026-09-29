@@ -706,7 +706,8 @@ section[id],
         mobile: 'M 920 70 C 935 225 900 305 800 340 C 665 390 515 400 300 455'
       },
       bracketCount: { desktop: 11, mobile: 10 },
-      leadBracketCount: 5,
+      existingExtraBracketCount: 5,
+      leftEdgeExtraBracketCount: 5,
       behavior: 'moving-window'
     },
     {
@@ -748,6 +749,53 @@ section[id],
     return group;
   };
 
+  const buildScreenPath = motion => {
+    const rect = motion.element.getBoundingClientRect();
+    const viewBox = motion.element.viewBox.baseVal;
+    const scaleX = rect.width / viewBox.width;
+    const scaleY = rect.height / viewBox.height;
+    const samples = [{ fraction: 0, distance: 0 }];
+    let previous = motion.wire.getPointAtLength(0);
+    let distance = 0;
+
+    for (let index = 1; index <= 320; index += 1) {
+      const fraction = index / 320;
+      const point = motion.wire.getPointAtLength(fraction * motion.length);
+      distance += Math.hypot(
+        (point.x - previous.x) * scaleX,
+        (point.y - previous.y) * scaleY
+      );
+      samples.push({ fraction, distance });
+      previous = point;
+    }
+    return samples;
+  };
+
+  const screenDistanceAt = (motion, fraction) => {
+    const samples = motion.screenPath;
+    const scaledIndex = clamp(fraction) * (samples.length - 1);
+    const lowerIndex = Math.floor(scaledIndex);
+    const upperIndex = Math.min(samples.length - 1, lowerIndex + 1);
+    const mix = scaledIndex - lowerIndex;
+    return samples[lowerIndex].distance
+      + (samples[upperIndex].distance - samples[lowerIndex].distance) * mix;
+  };
+
+  const fractionAtScreenDistance = (motion, target) => {
+    const samples = motion.screenPath;
+    const clampedTarget = Math.min(samples.at(-1).distance, Math.max(0, target));
+    let low = 0;
+    let high = samples.length - 1;
+    while (low + 1 < high) {
+      const middle = Math.floor((low + high) / 2);
+      if (samples[middle].distance < clampedTarget) low = middle;
+      else high = middle;
+    }
+    const range = samples[high].distance - samples[low].distance || 1;
+    const mix = (clampedTarget - samples[low].distance) / range;
+    return samples[low].fraction + (samples[high].fraction - samples[low].fraction) * mix;
+  };
+
   const configure = force => {
     const isCompact = innerWidth <= 680;
     const bracketSpacingPx = isCompact ? 30 : 54;
@@ -771,8 +819,10 @@ section[id],
       motion.bracketSpacing = bracketSpacingPx * svgUnitsPerPixel / length;
       motion.frontGap = frontGapPx * svgUnitsPerPixel / length;
       motion.backGap = backGapPx * svgUnitsPerPixel / length;
-      motion.entryAnchorOffset = motion.frontGap
-        + motion.leadBracketCount * motion.bracketSpacing;
+      if (motion.behavior === 'reveal-hold-fade') {
+        motion.entryAnchorOffset = motion.frontGap
+          + motion.leadBracketCount * motion.bracketSpacing;
+      }
       const trail = isCompact ? .50 : .44;
       const requiredBracketCount = Math.ceil(
         (trail - motion.frontGap - motion.backGap) / motion.bracketSpacing
@@ -780,16 +830,26 @@ section[id],
       const bracketCount = motion.behavior === 'moving-window'
         ? requiredBracketCount
         : motion.bracketCount[mode];
-      const totalBracketCount = bracketCount + motion.leadBracketCount;
+      const totalBracketCount = motion.behavior === 'moving-window'
+        ? bracketCount + motion.existingExtraBracketCount + motion.leftEdgeExtraBracketCount
+        : bracketCount + motion.leadBracketCount;
       brackets.replaceChildren(...Array.from(
         { length: totalBracketCount },
-        (_, index) => createBracket(index - motion.leadBracketCount, isCompact)
+        (_, index) => createBracket(
+          motion.behavior === 'moving-window' ? index : index - motion.leadBracketCount,
+          isCompact
+        )
       ));
       motion.baseBracketCount = bracketCount;
       motion.wire = wire;
       motion.highlight = highlight;
       motion.assembly = motion.element.querySelector('.braces-assembly');
       motion.brackets = [...brackets.children];
+      if (motion.behavior === 'moving-window') {
+        motion.bracketSpacingPx = bracketSpacingPx;
+        motion.edgeGapPx = isCompact ? 8 : 12;
+        motion.screenPath = buildScreenPath(motion);
+      }
       motion.currentProgress ??= 0;
       motion.targetProgress ??= 0;
     });
@@ -827,10 +887,21 @@ section[id],
     motion.element.style.opacity = progress > 0 ? fadeOut : 0;
     motion.assembly.setAttribute('transform', `translate(${(1 - progress) * -8} 0)`);
     setWire(motion, tail, head);
+    const tailPoint = motion.wire.getPointAtLength(tail * motion.length);
+    const headPoint = motion.wire.getPointAtLength(head * motion.length);
+    const leftFraction = tailPoint.x <= headPoint.x ? tail : head;
+    const oppositeFraction = leftFraction === tail ? head : tail;
+    const direction = Math.sign(oppositeFraction - leftFraction) || 1;
+    const leftDistance = screenDistanceAt(motion, leftFraction);
+    const oppositeDistance = screenDistanceAt(motion, oppositeFraction);
+    const visibleMinimum = Math.min(leftDistance, oppositeDistance);
+    const visibleMaximum = Math.max(leftDistance, oppositeDistance);
     motion.brackets.forEach(bracket => {
-      const logicalIndex = Number(bracket.dataset.logicalIndex);
-      const position = head - motion.entryAnchorOffset - logicalIndex * motion.bracketSpacing;
-      const inWindow = position >= tail && position <= head && position >= 0 && position <= 1;
+      const index = Number(bracket.dataset.logicalIndex);
+      const screenDistance = leftDistance
+        + direction * (motion.edgeGapPx + index * motion.bracketSpacingPx);
+      const position = fractionAtScreenDistance(motion, screenDistance);
+      const inWindow = screenDistance >= visibleMinimum && screenDistance <= visibleMaximum;
       placeBracket(motion, bracket, position);
       bracket.style.opacity = inWindow ? fadeOut : 0;
     });
