@@ -507,6 +507,14 @@ section[id],
   opacity:0;
   filter:drop-shadow(0 .8px .85px rgba(25,38,40,.24));
 }
+.hero-braces-motion .braces-bracket{
+  filter:drop-shadow(0 .55px .65px rgba(25,38,40,.17));
+}
+.hero-braces-motion .bracket-base{opacity:.86}
+.hero-braces-motion .bracket-wing{stroke-opacity:.74}
+.hero-braces-motion .bracket-ligature-shadow{stroke-opacity:.72}
+.hero-braces-motion .bracket-ligature{stroke-opacity:.88}
+.hero-braces-motion .bracket-specular{stroke-opacity:.84}
 .bracket-specular{
   stroke:rgba(250,251,251,.96);
   stroke-width:.7;
@@ -521,6 +529,7 @@ section[id],
   .braces-wire-trail{stroke-width:2.05;opacity:.74}
   .braces-wire-glow{stroke-width:2.35;opacity:.44}
   .braces-bracket{filter:drop-shadow(0 .65px .7px rgba(25,38,40,.22))}
+  .hero-braces-motion .braces-bracket{filter:drop-shadow(0 .45px .55px rgba(25,38,40,.15))}
   .hero-braces-motion{height:62%}
   .cta-wrap{padding-bottom:78px}
   .final-braces-motion{inset:auto 18px 14px;height:50px;width:calc(100% - 36px)}
@@ -648,7 +657,7 @@ section[id],
         <svg class="hero-braces-motion" viewBox="0 0 1000 545" preserveAspectRatio="none" aria-hidden="true">
           <defs>
             <linearGradient id="hero-wire-metal" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#747a7d"/><stop offset=".22" stop-color="#eef1f2"/><stop offset=".48" stop-color="#aeb4b6"/><stop offset=".72" stop-color="#fafbfb"/><stop offset="1" stop-color="#72787b"/>
+              <stop offset="0" stop-color="#686d70"/><stop offset=".22" stop-color="#e7eaeb"/><stop offset=".48" stop-color="#9da3a5"/><stop offset=".72" stop-color="#f5f7f7"/><stop offset="1" stop-color="#666c6f"/>
             </linearGradient>
             <linearGradient id="hero-bracket-metal" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stop-color="#686d70"/><stop offset=".16" stop-color="#eef1f2"/><stop offset=".34" stop-color="#aeb4b6"/><stop offset=".5" stop-color="#fafbfb"/><stop offset=".66" stop-color="#8c9295"/><stop offset=".84" stop-color="#d9ddde"/><stop offset="1" stop-color="#72787b"/>
@@ -959,8 +968,8 @@ section[id],
         const viewBox = motion.element.viewBox.baseVal;
         motion.bracketRenderScaleX = rect.width / viewBox.width;
         motion.bracketRenderScaleY = rect.height / viewBox.height;
-        motion.bracketVisualWidth = isCompact ? 13.5 : 15.5;
-        motion.bracketVisualHeight = isCompact ? 11 : 12.7;
+        motion.bracketVisualWidth = isCompact ? 12 : 13.75;
+        motion.bracketVisualHeight = isCompact ? 9.8 : 11.25;
         motion.bracketUnitWidth = isCompact ? 15 : 16.5;
         motion.bracketUnitHeight = isCompact ? 12 : 13.5;
       }
