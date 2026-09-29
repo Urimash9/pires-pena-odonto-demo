@@ -406,6 +406,7 @@ section[id],
 
 /* The photo remains a separate column and dissolves into the paper at its edge. */
 .hero h1 span{display:block;white-space:nowrap}
+.hero-copy::after{content:none}
 .hero-photo img{
   -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 148px);
   mask-image:linear-gradient(90deg,transparent 0,#000 148px);
@@ -486,19 +487,16 @@ section[id],
   .hero h1{font-size:clamp(39px,5.1vw,47px)}
 }
 
-@media(max-width:480px){
+@media(max-width:680px){
   .hero-actions{
     display:flex;
+    flex-direction:column;
     grid-template-columns:none;
     align-items:flex-start;
+    gap:8px;
   }
-  .hero-actions .btn.primary{
-    width:auto;
-    padding-left:11px;
-    padding-right:11px;
-    font-size:11px;
-    white-space:nowrap;
-  }
+  .hero-actions .btn{width:min(100%,310px)}
+  .hero-actions .btn.primary{white-space:nowrap}
 }
 
 @media(max-width:400px){
