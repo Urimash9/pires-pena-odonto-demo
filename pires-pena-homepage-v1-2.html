@@ -750,6 +750,7 @@ section[id],
     const isCompact = innerWidth <= 680;
     const bracketSpacingPx = isCompact ? 30 : 54;
     const frontGapPx = isCompact ? 5 : 8;
+    const backGapPx = isCompact ? 5 : 8;
     if (!force && compact === isCompact) return;
     compact = isCompact;
 
@@ -759,7 +760,6 @@ section[id],
       const brackets = motion.element.querySelector('.braces-brackets');
       wire.setAttribute('d', motion.paths[mode]);
       highlight.setAttribute('d', motion.paths[mode]);
-      brackets.replaceChildren(...Array.from({ length: motion.bracketCount[mode] }, (_, index) => createBracket(index, isCompact)));
 
       const length = wire.getTotalLength();
       const viewBoxWidth = motion.element.viewBox.baseVal.width;
@@ -768,6 +768,15 @@ section[id],
       motion.length = length;
       motion.bracketSpacing = bracketSpacingPx * svgUnitsPerPixel / length;
       motion.frontGap = frontGapPx * svgUnitsPerPixel / length;
+      motion.backGap = backGapPx * svgUnitsPerPixel / length;
+      const trail = isCompact ? .50 : .44;
+      const requiredBracketCount = Math.ceil(
+        (trail - motion.frontGap - motion.backGap) / motion.bracketSpacing
+      ) + 2;
+      const bracketCount = motion.behavior === 'moving-window'
+        ? requiredBracketCount
+        : motion.bracketCount[mode];
+      brackets.replaceChildren(...Array.from({ length: bracketCount }, (_, index) => createBracket(index, isCompact)));
       motion.wire = wire;
       motion.highlight = highlight;
       motion.assembly = motion.element.querySelector('.braces-assembly');
