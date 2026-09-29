@@ -440,8 +440,8 @@ section[id],
 }
 .braces-wire{
   stroke:#a79e93;
-  stroke-width:1.85;
-  opacity:.92;
+  stroke-width:1.75;
+  opacity:.96;
 }
 .hero-braces-motion .braces-wire{stroke:url(#hero-wire-metal)}
 .final-braces-motion .braces-wire{stroke:url(#final-wire-metal)}
@@ -451,50 +451,76 @@ section[id],
   opacity:.78;
 }
 .braces-wire-trail{
-  stroke:rgba(239,225,207,.42);
-  stroke-width:2.7;
-  opacity:.34;
+  stroke:rgba(213,218,219,.76);
+  stroke-width:2.2;
+  opacity:.78;
 }
 .braces-wire-glow{
-  stroke:rgba(222,199,169,.34);
-  stroke-width:4.2;
-  opacity:.28;
+  stroke:rgba(75,81,83,.58);
+  stroke-width:2.6;
+  opacity:.48;
 }
-.hero-braces-motion .braces-wire-glow{filter:url(#hero-wire-glow)}
-.final-braces-motion .braces-wire-glow{filter:url(#final-wire-glow)}
-.braces-bracket-frame{
+.bracket-base{
+  stroke:rgba(78,84,86,.72);
+  stroke-width:.55;
+  opacity:.9;
+}
+.hero-braces-motion .bracket-base,
+.hero-braces-motion .bracket-wing{fill:url(#hero-bracket-metal)}
+.final-braces-motion .bracket-base,
+.final-braces-motion .bracket-wing{fill:url(#final-bracket-metal)}
+.bracket-wing{
+  stroke:rgba(242,245,245,.82);
+  stroke-width:.52;
+}
+.bracket-slot-shadow{fill:rgba(45,50,52,.82)}
+.bracket-slot-inner{fill:rgba(128,135,138,.82)}
+.bracket-local-wire-shadow{
+  stroke:rgba(48,53,55,.72);
+  stroke-width:2.2;
+  stroke-linecap:round;
+}
+.bracket-local-wire{
+  stroke:#aeb4b6;
+  stroke-width:1.4;
+  stroke-linecap:round;
+}
+.bracket-local-wire-highlight{
+  stroke:rgba(250,251,251,.9);
+  stroke-width:.48;
+  stroke-linecap:round;
+}
+.bracket-ligature-shadow,
+.bracket-ligature{
   fill:none;
-  stroke:rgba(255,250,242,.48);
-  stroke-width:.5;
+  rx:3px;
+}
+.bracket-ligature-shadow{
+  stroke:rgba(105,111,112,.34);
+  stroke-width:1.8;
+}
+.bracket-ligature{
+  stroke:rgba(238,237,231,.84);
+  stroke-width:1.05;
 }
 .braces-bracket{
   opacity:0;
-  filter:drop-shadow(0 .8px .7px rgba(25,50,55,.16));
+  filter:drop-shadow(0 .8px .85px rgba(25,38,40,.24));
 }
-.hero-braces-motion .braces-bracket-body{fill:url(#hero-bracket-metal)}
-.final-braces-motion .braces-bracket-body{fill:url(#final-bracket-metal)}
-.braces-bracket-body{
-  stroke:rgba(247,242,232,.76);
-  stroke-width:.65;
-}
-.braces-bracket-slot{
-  fill:rgba(91,84,76,.60);
-  stroke:none;
-}
-.braces-bracket-highlight{
-  stroke:rgba(255,250,242,.68);
-  stroke-width:.65;
+.bracket-specular{
+  stroke:rgba(250,251,251,.96);
+  stroke-width:.7;
   stroke-linecap:round;
 }
 .cta-wrap{position:relative;overflow:hidden;padding-bottom:104px}
 .final-braces-motion{inset:auto 56px 16px;height:70px;width:calc(100% - 112px);z-index:1}
 
 @media(max-width:680px){
-  .braces-wire{stroke-width:1.6;opacity:.9}
+  .braces-wire{stroke-width:1.65;opacity:.94}
   .braces-wire-highlight{stroke-width:.52;opacity:.72}
-  .braces-wire-trail{stroke-width:2.3;opacity:.28}
-  .braces-wire-glow{stroke-width:3.5;opacity:.22}
-  .braces-bracket{filter:drop-shadow(0 .75px .75px rgba(25,50,55,.13))}
+  .braces-wire-trail{stroke-width:2.05;opacity:.74}
+  .braces-wire-glow{stroke-width:2.35;opacity:.44}
+  .braces-bracket{filter:drop-shadow(0 .65px .7px rgba(25,38,40,.22))}
   .hero-braces-motion{height:62%}
   .cta-wrap{padding-bottom:78px}
   .final-braces-motion{inset:auto 18px 14px;height:50px;width:calc(100% - 36px)}
@@ -622,12 +648,11 @@ section[id],
         <svg class="hero-braces-motion" viewBox="0 0 1000 545" preserveAspectRatio="none" aria-hidden="true">
           <defs>
             <linearGradient id="hero-wire-metal" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#d9d0c5"/><stop offset=".48" stop-color="#a79e93"/><stop offset="1" stop-color="#8f877e"/>
+              <stop offset="0" stop-color="#747a7d"/><stop offset=".22" stop-color="#eef1f2"/><stop offset=".48" stop-color="#aeb4b6"/><stop offset=".72" stop-color="#fafbfb"/><stop offset="1" stop-color="#72787b"/>
             </linearGradient>
             <linearGradient id="hero-bracket-metal" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#f5f0e9"/><stop offset=".28" stop-color="#ddd5cb"/><stop offset=".58" stop-color="#bfb5a9"/><stop offset="1" stop-color="#92897f"/>
+              <stop offset="0" stop-color="#686d70"/><stop offset=".16" stop-color="#eef1f2"/><stop offset=".34" stop-color="#aeb4b6"/><stop offset=".5" stop-color="#fafbfb"/><stop offset=".66" stop-color="#8c9295"/><stop offset=".84" stop-color="#d9ddde"/><stop offset="1" stop-color="#72787b"/>
             </linearGradient>
-            <filter id="hero-wire-glow" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="2.1"/></filter>
           </defs>
           <g class="braces-assembly">
             <use class="braces-wire-glow" href="#hero-wire-path"/>
@@ -717,13 +742,12 @@ section[id],
       <section class="cta"><div><div class="eyebrow" style="color:#cce4df">Seu sorriso em boas mãos</div><h2 class="serif">Pronto para cuidar do seu sorriso?</h2><p>Converse com a equipe e agende sua avaliação.</p></div><a class="btn" href="https://wa.me/5534998972712" target="_blank" rel="noopener">Agendar pelo WhatsApp →</a></section>
       <svg class="final-braces-motion" viewBox="0 0 1068 70" preserveAspectRatio="none" aria-hidden="true">
         <defs>
-          <linearGradient id="final-wire-metal" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#cec4b8"/><stop offset=".48" stop-color="#9f968b"/><stop offset="1" stop-color="#857d74"/>
-          </linearGradient>
-          <linearGradient id="final-bracket-metal" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#f0ebe3"/><stop offset=".28" stop-color="#d5cdc2"/><stop offset=".58" stop-color="#b6ab9f"/><stop offset="1" stop-color="#887f75"/>
+            <linearGradient id="final-wire-metal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#686d70"/><stop offset=".22" stop-color="#e7eaeb"/><stop offset=".48" stop-color="#9da3a5"/><stop offset=".72" stop-color="#f5f7f7"/><stop offset="1" stop-color="#666c6f"/>
             </linearGradient>
-          <filter id="final-wire-glow" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="1.8"/></filter>
+            <linearGradient id="final-bracket-metal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#686d70"/><stop offset=".16" stop-color="#eef1f2"/><stop offset=".34" stop-color="#aeb4b6"/><stop offset=".5" stop-color="#fafbfb"/><stop offset=".66" stop-color="#8c9295"/><stop offset=".84" stop-color="#d9ddde"/><stop offset="1" stop-color="#72787b"/>
+            </linearGradient>
         </defs>
         <g class="braces-assembly">
           <use class="braces-wire-glow" href="#final-wire-path"/>
@@ -781,39 +805,48 @@ section[id],
   const clamp = value => Math.min(1, Math.max(0, value));
   const createBracket = (logicalIndex, small) => {
     const group = document.createElementNS(svgNamespace, 'g');
-    const body = document.createElementNS(svgNamespace, 'rect');
-    const frame = document.createElementNS(svgNamespace, 'rect');
-    const slot = document.createElementNS(svgNamespace, 'rect');
-    const highlight = document.createElementNS(svgNamespace, 'line');
-    const width = small ? 12 : 14;
-    const height = small ? 10 : 12;
+    const width = small ? 15 : 16.5;
+    const height = small ? 12 : 13.5;
+    const svgElement = (tag, className, attributes) => {
+      const element = document.createElementNS(svgNamespace, tag);
+      element.classList.add(className);
+      Object.entries(attributes).forEach(([name, value]) => element.setAttribute(name, value));
+      return element;
+    };
 
     group.classList.add('braces-bracket');
     group.dataset.logicalIndex = logicalIndex;
-    body.classList.add('braces-bracket-body');
-    frame.classList.add('braces-bracket-frame');
-    slot.classList.add('braces-bracket-slot');
-    highlight.classList.add('braces-bracket-highlight');
-    body.setAttribute('x', -width / 2);
-    body.setAttribute('y', -height / 2);
-    body.setAttribute('width', width);
-    body.setAttribute('height', height);
-    body.setAttribute('rx', '2.5');
-    frame.setAttribute('x', -width * .36);
-    frame.setAttribute('y', -height * .34);
-    frame.setAttribute('width', width * .72);
-    frame.setAttribute('height', height * .68);
-    frame.setAttribute('rx', '1.6');
-    slot.setAttribute('x', -width * .32);
-    slot.setAttribute('y', '-1');
-    slot.setAttribute('width', width * .64);
-    slot.setAttribute('height', '2');
-    slot.setAttribute('rx', '1');
-    highlight.setAttribute('x1', -width * .28);
-    highlight.setAttribute('y1', -height * .24);
-    highlight.setAttribute('x2', width * .22);
-    highlight.setAttribute('y2', -height * .24);
-    group.append(body, frame, slot, highlight);
+    const base = svgElement('rect', 'bracket-base', {
+      x: -width * .43, y: -height * .37, width: width * .86, height: height * .74, rx: 2.4
+    });
+    const wings = [
+      [-.34, -.42], [.06, -.42], [-.34, .07], [.06, .07]
+    ].map(([x, y]) => svgElement('rect', 'bracket-wing', {
+      x: width * x, y: height * y, width: width * .28, height: height * .35, rx: 1.35
+    }));
+    const slotShadow = svgElement('rect', 'bracket-slot-shadow', {
+      x: -width * .43, y: -1.65, width: width * .86, height: 3.3, rx: 1
+    });
+    const slotInner = svgElement('rect', 'bracket-slot-inner', {
+      x: -width * .39, y: -.82, width: width * .78, height: 1.64, rx: .6
+    });
+    const lineAttributes = { x1: -width * .55, y1: 0, x2: width * .55, y2: 0 };
+    const localWireShadow = svgElement('line', 'bracket-local-wire-shadow', lineAttributes);
+    const localWire = svgElement('line', 'bracket-local-wire', lineAttributes);
+    const localWireHighlight = svgElement('line', 'bracket-local-wire-highlight', lineAttributes);
+    const ligatureAttributes = {
+      x: -width * .47, y: -height * .45, width: width * .94, height: height * .9, rx: 3.1
+    };
+    const ligatureShadow = svgElement('rect', 'bracket-ligature-shadow', ligatureAttributes);
+    const ligature = svgElement('rect', 'bracket-ligature', ligatureAttributes);
+    const specular = svgElement('line', 'bracket-specular', {
+      x1: -width * .28, y1: -height * .31, x2: -width * .1, y2: -height * .31
+    });
+    group.append(
+      base, ...wings, slotShadow, slotInner,
+      localWireShadow, localWire, localWireHighlight,
+      ligatureShadow, ligature, specular
+    );
     return group;
   };
 
