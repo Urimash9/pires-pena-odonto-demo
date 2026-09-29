@@ -845,10 +845,11 @@ section[id],
       motion.highlight = highlight;
       motion.assembly = motion.element.querySelector('.braces-assembly');
       motion.brackets = [...brackets.children];
+      motion.overhangPx = isCompact ? 8 : 12;
+      motion.screenPath = buildScreenPath(motion);
       if (motion.behavior === 'moving-window') {
         motion.bracketSpacingPx = bracketSpacingPx;
         motion.edgeGapPx = isCompact ? 8 : 12;
-        motion.screenPath = buildScreenPath(motion);
       }
       motion.currentProgress ??= 0;
       motion.targetProgress ??= 0;
@@ -877,6 +878,21 @@ section[id],
     });
   };
 
+  const setWireFromBrackets = (motion, bracketFractions) => {
+    if (!bracketFractions.length) {
+      setWire(motion, 0, 0);
+      return;
+    }
+    const distances = bracketFractions.map(fraction => screenDistanceAt(motion, fraction));
+    const wireStartDistance = Math.min(...distances) - motion.overhangPx;
+    const wireEndDistance = Math.max(...distances) + motion.overhangPx;
+    setWire(
+      motion,
+      fractionAtScreenDistance(motion, wireStartDistance),
+      fractionAtScreenDistance(motion, wireEndDistance)
+    );
+  };
+
   const drawMovingWindow = (motion, progress) => {
     const trail = compact ? .50 : .44;
     const immediateProgress = Math.pow(progress, .55);
@@ -886,7 +902,6 @@ section[id],
 
     motion.element.style.opacity = progress > 0 ? fadeOut : 0;
     motion.assembly.setAttribute('transform', `translate(${(1 - progress) * -8} 0)`);
-    setWire(motion, tail, head);
     const tailPoint = motion.wire.getPointAtLength(tail * motion.length);
     const headPoint = motion.wire.getPointAtLength(head * motion.length);
     const leftFraction = tailPoint.x <= headPoint.x ? tail : head;
@@ -896,6 +911,7 @@ section[id],
     const oppositeDistance = screenDistanceAt(motion, oppositeFraction);
     const visibleMinimum = Math.min(leftDistance, oppositeDistance);
     const visibleMaximum = Math.max(leftDistance, oppositeDistance);
+    const visibleBrackets = [];
     motion.brackets.forEach(bracket => {
       const index = Number(bracket.dataset.logicalIndex);
       const screenDistance = leftDistance
@@ -904,7 +920,9 @@ section[id],
       const inWindow = screenDistance >= visibleMinimum && screenDistance <= visibleMaximum;
       placeBracket(motion, bracket, position);
       bracket.style.opacity = inWindow ? fadeOut : 0;
+      if (inWindow) visibleBrackets.push(position);
     });
+    setWireFromBrackets(motion, visibleBrackets);
   };
 
   const drawSmile = (motion, progress) => {
@@ -915,14 +933,16 @@ section[id],
 
     motion.element.style.opacity = progress > 0 ? fadeOut : 0;
     motion.assembly.setAttribute('transform', `translate(${(1 - head) * -36} 0)`);
-    setWire(motion, 0, head);
+    const visibleBrackets = [];
     motion.brackets.forEach(bracket => {
       const logicalIndex = Number(bracket.dataset.logicalIndex);
       const position = head - motion.entryAnchorOffset - logicalIndex * motion.bracketSpacing;
       const onPath = position >= 0 && position <= 1;
       placeBracket(motion, bracket, position);
       bracket.style.opacity = onPath ? fadeOut : 0;
+      if (onPath) visibleBrackets.push(position);
     });
+    setWireFromBrackets(motion, visibleBrackets);
   };
 
   const updateTargets = () => {
