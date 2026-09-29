@@ -771,6 +771,8 @@ section[id],
       motion.bracketSpacing = bracketSpacingPx * svgUnitsPerPixel / length;
       motion.frontGap = frontGapPx * svgUnitsPerPixel / length;
       motion.backGap = backGapPx * svgUnitsPerPixel / length;
+      motion.entryAnchorOffset = motion.frontGap
+        + motion.leadBracketCount * motion.bracketSpacing;
       const trail = isCompact ? .50 : .44;
       const requiredBracketCount = Math.ceil(
         (trail - motion.frontGap - motion.backGap) / motion.bracketSpacing
@@ -826,8 +828,8 @@ section[id],
     motion.assembly.setAttribute('transform', `translate(${(1 - progress) * -8} 0)`);
     setWire(motion, tail, head);
     motion.brackets.forEach(bracket => {
-      const sequenceIndex = Number(bracket.dataset.logicalIndex) + motion.leadBracketCount;
-      const position = head - motion.frontGap - sequenceIndex * motion.bracketSpacing;
+      const logicalIndex = Number(bracket.dataset.logicalIndex);
+      const position = head - motion.entryAnchorOffset - logicalIndex * motion.bracketSpacing;
       const inWindow = position >= tail && position <= head && position >= 0 && position <= 1;
       placeBracket(motion, bracket, position);
       bracket.style.opacity = inWindow ? fadeOut : 0;
@@ -844,8 +846,8 @@ section[id],
     motion.assembly.setAttribute('transform', `translate(${(1 - head) * -36} 0)`);
     setWire(motion, 0, head);
     motion.brackets.forEach(bracket => {
-      const sequenceIndex = Number(bracket.dataset.logicalIndex) + motion.leadBracketCount;
-      const position = head - motion.frontGap - sequenceIndex * motion.bracketSpacing;
+      const logicalIndex = Number(bracket.dataset.logicalIndex);
+      const position = head - motion.entryAnchorOffset - logicalIndex * motion.bracketSpacing;
       const onPath = position >= 0 && position <= 1;
       placeBracket(motion, bracket, position);
       bracket.style.opacity = onPath ? fadeOut : 0;
