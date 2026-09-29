@@ -400,6 +400,111 @@ footer,.copyright{background:#ece5da}
   image-rendering:auto;
 }
 
+/* ===== V1.3 — RESPONSIVE LAYOUT POLISH ===== */
+section[id],
+.cta-wrap[id]{scroll-margin-top:96px}
+
+/* The photo remains a separate column and dissolves into the paper at its edge. */
+.hero h1 span{display:block;white-space:nowrap}
+.hero-copy::after{content:none}
+.hero-photo img{
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 148px);
+  mask-image:linear-gradient(90deg,transparent 0,#000 148px);
+}
+.hero-photo::before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:148px;
+  z-index:1;
+  pointer-events:none;
+  background:linear-gradient(90deg,var(--paper) 0%,rgba(244,239,231,.55) 38%,rgba(244,239,231,0) 100%);
+}
+.hero-handwritten{
+  position:absolute;
+  z-index:2;
+  right:28px;
+  top:34px;
+  font-family:'Segoe Script','Brush Script MT',cursive;
+  font-size:21px;
+  line-height:1.18;
+  color:#866d57;
+  text-align:center;
+  transform:rotate(-7deg);
+  opacity:.60;
+}
+
+@media(max-width:680px){
+  .nav{height:68px}
+  section[id],.cta-wrap[id]{scroll-margin-top:80px}
+  .hero h1 span{display:inline;white-space:normal}
+  .hero-photo{
+    height:clamp(320px,86vw,370px);
+    min-height:0;
+  }
+  .hero-photo img{
+    height:100%;
+    object-fit:cover;
+    object-position:center 42%!important;
+    -webkit-mask-image:none;
+    mask-image:none;
+  }
+  .hero-photo::before,
+  .hero-handwritten{display:none}
+  .benefits{grid-template-columns:1fr 1fr}
+  .benefit{
+    min-height:92px;
+    padding:12px 10px;
+    grid-template-columns:34px 1fr;
+    gap:8px;
+    align-items:center;
+  }
+  .benefit:nth-child(odd){border-right:1px solid rgba(15,93,87,.10)!important}
+  .benefit:nth-child(-n+2){border-bottom:1px solid rgba(15,93,87,.10)}
+  .benefit:nth-child(n+3){border-bottom:0}
+  .icon{width:34px;height:34px;font-size:18px}
+  .benefit b{margin-bottom:3px;line-height:1.1}
+  .benefit span{font-size:9.5px;line-height:1.18}
+  .treatment-card{
+    grid-template-columns:minmax(0,1fr) 34%;
+    height:165px;
+    min-height:0;
+  }
+  .treatment-copy{padding:16px}
+  .treatment-card b{margin-bottom:6px;line-height:1.25}
+  .treatment-card p{line-height:1.35}
+  .treatment-card img{object-position:center}
+  .doctor img{
+    height:390px;
+    min-height:0;
+    object-fit:cover;
+  }
+  .doctor:first-child img{object-position:center 24%}
+  .doctor:nth-child(2) img{object-position:center 20%}
+}
+
+@media(min-width:681px) and (max-width:920px){
+  .hero h1{font-size:clamp(39px,5.1vw,47px)}
+}
+
+@media(max-width:680px){
+  .hero-actions{
+    display:flex;
+    flex-direction:column;
+    grid-template-columns:none;
+    align-items:flex-start;
+    gap:8px;
+  }
+  .hero-actions .btn{width:min(100%,310px)}
+  .hero-actions .btn.primary{white-space:nowrap}
+}
+
+@media(max-width:400px){
+  .hero-photo{height:320px}
+  .treatment-card{height:158px}
+  .doctor img{height:370px}
+}
+
 </style>
 </head>
 <body>
@@ -410,7 +515,7 @@ footer,.copyright{background:#ece5da}
       <nav>
         <a href="#inicio">Início</a><a href="#tratamentos">Tratamentos</a><a href="#profissionais">Profissionais</a><a href="#clinica">Clínica</a><a href="#contato">Contato</a>
       </nav>
-      <div class="nav-actions"><a href="https://wa.me/5534998972712" target="_blank" rel="noopener" aria-label="WhatsApp">◉</a><a class="btn primary" href="https://wa.me/5534998972712" target="_blank" rel="noopener">Agendar avaliação →</a><span class="hamb">☰</span></div>
+      <div class="nav-actions"><a class="btn primary" href="https://wa.me/5534998972712" target="_blank" rel="noopener">Agendar avaliação →</a><span class="hamb">☰</span></div>
     </div>
   </header>
 
@@ -418,7 +523,7 @@ footer,.copyright{background:#ece5da}
     <section class="hero" id="inicio">
       <div class="hero-copy">
         <div class="eyebrow">Odontologia especializada</div>
-        <h1 class="serif">Seu sorriso com<br>técnica, estética<br>e cuidado.</h1>
+        <h1 class="serif"><span>Seu sorriso com</span> <span>técnica, estética</span> <span>e cuidado.</span></h1>
         <p>Atendimento humanizado e excelência odontológica para você se sentir bem em todas as fases da vida.</p>
         <div class="hero-actions">
           <a class="btn primary" href="https://wa.me/5534998972712" target="_blank" rel="noopener">Agendar pelo WhatsApp →</a>
@@ -431,7 +536,7 @@ footer,.copyright{background:#ece5da}
           <div><b>Cuidado próximo</b><small>Atendimento personalizado em cada etapa.</small></div>
         </div>
       </div>
-      <div class="hero-photo"><img src="assets/images/hero-atendimento-odontologico.png" alt="Atendimento odontológico"></div>
+      <div class="hero-photo"><img src="assets/images/hero-atendimento-odontologico.png" alt="Atendimento odontológico"><span class="hero-handwritten">Sorrisos que transformam histórias</span></div>
     </section>
 
     <section class="benefits" aria-label="Diferenciais">
