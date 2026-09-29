@@ -416,6 +416,113 @@ section[id],
   pointer-events:none;
   background:linear-gradient(90deg,var(--paper) 0%,rgba(247,242,232,.55) 38%,rgba(247,242,232,0) 100%);
 }
+
+/* ===== SCROLL MOTION — ORTHODONTIC WIRE ===== */
+.final-braces-motion{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:2;
+  overflow:hidden;
+  pointer-events:none;
+  opacity:0;
+}
+.braces-wire,
+.braces-wire-highlight,
+.braces-wire-glow,
+.braces-wire-trail{
+  fill:none;
+  vector-effect:non-scaling-stroke;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.braces-wire{
+  stroke:#a79e93;
+  stroke-width:1.75;
+  opacity:.98;
+}
+.final-braces-motion .braces-wire{stroke:url(#final-wire-metal)}
+.braces-wire-highlight{
+  stroke:rgba(246,241,234,.82);
+  stroke-width:.62;
+  opacity:.82;
+}
+.braces-wire-trail{
+  stroke:rgba(213,218,219,.76);
+  stroke-width:2.2;
+  opacity:.78;
+}
+.braces-wire-glow{
+  stroke:rgba(75,81,83,.58);
+  stroke-width:2.6;
+  opacity:.48;
+}
+.bracket-base{
+  stroke:rgba(78,84,86,.72);
+  stroke-width:.55;
+  opacity:.92;
+}
+.final-braces-motion .bracket-base,
+.final-braces-motion .bracket-wing{fill:url(#final-bracket-metal)}
+.bracket-wing{
+  stroke:rgba(242,245,245,.82);
+  stroke-width:.52;
+}
+.bracket-slot-shadow{fill:rgba(45,50,52,.82)}
+.bracket-slot-inner{fill:rgba(128,135,138,.82)}
+.bracket-local-wire-shadow{
+  stroke:rgba(48,53,55,.72);
+  stroke-width:2.2;
+  stroke-linecap:round;
+}
+.bracket-local-wire{
+  stroke:#aeb4b6;
+  stroke-width:1.4;
+  stroke-linecap:round;
+}
+.bracket-local-wire-highlight{
+  stroke:rgba(250,251,251,.9);
+  stroke-width:.48;
+  stroke-linecap:round;
+}
+.bracket-ligature-shadow,
+.bracket-ligature{
+  fill:none;
+  rx:3px;
+}
+.bracket-ligature-shadow{
+  stroke:rgba(105,111,112,.34);
+  stroke-width:1.8;
+}
+.bracket-ligature{
+  stroke:rgba(238,237,231,.84);
+  stroke-width:1.05;
+}
+.braces-bracket{
+  opacity:0;
+  filter:drop-shadow(0 .8px .85px rgba(25,38,40,.26));
+}
+.bracket-specular{
+  stroke:rgba(250,251,251,.96);
+  stroke-width:.7;
+  stroke-linecap:round;
+}
+.cta-wrap{position:relative;overflow:hidden;padding-bottom:124px}
+.final-braces-motion{inset:auto 56px 20px;height:70px;width:calc(100% - 112px);z-index:1}
+
+@media(max-width:680px){
+  .braces-wire{stroke-width:1.65;opacity:.97}
+  .braces-wire-highlight{stroke-width:.52;opacity:.78}
+  .braces-wire-trail{stroke-width:2.05;opacity:.78}
+  .braces-wire-glow{stroke-width:2.35;opacity:.48}
+  .braces-bracket{filter:drop-shadow(0 .65px .7px rgba(25,38,40,.24))}
+  .cta-wrap{padding-bottom:96px}
+  .final-braces-motion{inset:auto 18px 18px;height:50px;width:calc(100% - 36px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .final-braces-motion{display:none!important}
+}
 .hero-handwritten{
   position:absolute;
   z-index:2;
@@ -610,6 +717,23 @@ section[id],
 
     <div class="cta-wrap" id="contato">
       <section class="cta"><div><div class="eyebrow" style="color:#cce4df">Seu sorriso em boas mãos</div><h2 class="serif">Pronto para cuidar do seu sorriso?</h2><p>Converse com a equipe e agende sua avaliação.</p></div><a class="btn" href="https://wa.me/5534998972712" target="_blank" rel="noopener">Agendar pelo WhatsApp →</a></section>
+      <svg class="final-braces-motion" viewBox="0 0 1068 70" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+            <linearGradient id="final-wire-metal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#686d70"/><stop offset=".22" stop-color="#e7eaeb"/><stop offset=".48" stop-color="#9da3a5"/><stop offset=".72" stop-color="#f5f7f7"/><stop offset="1" stop-color="#666c6f"/>
+            </linearGradient>
+            <linearGradient id="final-bracket-metal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#686d70"/><stop offset=".16" stop-color="#eef1f2"/><stop offset=".34" stop-color="#aeb4b6"/><stop offset=".5" stop-color="#fafbfb"/><stop offset=".66" stop-color="#8c9295"/><stop offset=".84" stop-color="#d9ddde"/><stop offset="1" stop-color="#72787b"/>
+            </linearGradient>
+        </defs>
+        <g class="braces-assembly">
+          <use class="braces-wire-glow" href="#final-wire-path"/>
+          <use class="braces-wire-trail" href="#final-wire-path"/>
+          <path class="braces-wire" id="final-wire-path"/>
+          <path class="braces-wire-highlight"/>
+          <g class="braces-brackets"></g>
+        </g>
+      </svg>
     </div>
   </main>
 
@@ -621,5 +745,246 @@ section[id],
   </footer>
   <div class="copyright">© 2026 Pires Pena Odontologia · Homepage conceito V1.2</div>
 </div>
+<script>
+(() => {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const svgNamespace = 'http://www.w3.org/2000/svg';
+  const cta = document.querySelector('.cta-wrap');
+  const motion = {
+    element: document.querySelector('.final-braces-motion'),
+    paths: {
+      desktop: 'M -30 8 C 250 76 818 76 1098 8',
+      mobile: 'M -30 7 C 245 57 823 57 1098 7'
+    },
+    bracketCount: { desktop: 18, mobile: 13 },
+    leadBracketCount: 4,
+    currentProgress: 0,
+    targetProgress: 0
+  };
+  let frameRequested = false;
+  let compact = null;
+
+  const clamp = value => Math.min(1, Math.max(0, value));
+  const createBracket = (logicalIndex, small) => {
+    const group = document.createElementNS(svgNamespace, 'g');
+    const width = small ? 15 : 16.5;
+    const height = small ? 12 : 13.5;
+    const svgElement = (tag, className, attributes) => {
+      const element = document.createElementNS(svgNamespace, tag);
+      element.classList.add(className);
+      Object.entries(attributes).forEach(([name, value]) => element.setAttribute(name, value));
+      return element;
+    };
+
+    group.classList.add('braces-bracket');
+    group.dataset.logicalIndex = logicalIndex;
+    const base = svgElement('rect', 'bracket-base', {
+      x: -width * .43, y: -height * .37, width: width * .86, height: height * .74, rx: 2.4
+    });
+    const wings = [
+      [-.34, -.42], [.06, -.42], [-.34, .07], [.06, .07]
+    ].map(([x, y]) => svgElement('rect', 'bracket-wing', {
+      x: width * x, y: height * y, width: width * .28, height: height * .35, rx: 1.35
+    }));
+    const slotShadow = svgElement('rect', 'bracket-slot-shadow', {
+      x: -width * .43, y: -1.65, width: width * .86, height: 3.3, rx: 1
+    });
+    const slotInner = svgElement('rect', 'bracket-slot-inner', {
+      x: -width * .39, y: -.82, width: width * .78, height: 1.64, rx: .6
+    });
+    const lineAttributes = { x1: -width * .55, y1: 0, x2: width * .55, y2: 0 };
+    const ligatureAttributes = {
+      x: -width * .47, y: -height * .45, width: width * .94, height: height * .9, rx: 3.1
+    };
+    group.append(
+      base,
+      ...wings,
+      slotShadow,
+      slotInner,
+      svgElement('line', 'bracket-local-wire-shadow', lineAttributes),
+      svgElement('line', 'bracket-local-wire', lineAttributes),
+      svgElement('line', 'bracket-local-wire-highlight', lineAttributes),
+      svgElement('rect', 'bracket-ligature-shadow', ligatureAttributes),
+      svgElement('rect', 'bracket-ligature', ligatureAttributes),
+      svgElement('line', 'bracket-specular', {
+        x1: -width * .28, y1: -height * .31, x2: -width * .1, y2: -height * .31
+      })
+    );
+    return group;
+  };
+
+  const buildScreenPath = () => {
+    const rect = motion.element.getBoundingClientRect();
+    const viewBox = motion.element.viewBox.baseVal;
+    const scaleX = rect.width / viewBox.width;
+    const scaleY = rect.height / viewBox.height;
+    const samples = [{ fraction: 0, distance: 0 }];
+    let previous = motion.wire.getPointAtLength(0);
+    let distance = 0;
+
+    for (let index = 1; index <= 320; index += 1) {
+      const fraction = index / 320;
+      const point = motion.wire.getPointAtLength(fraction * motion.length);
+      distance += Math.hypot(
+        (point.x - previous.x) * scaleX,
+        (point.y - previous.y) * scaleY
+      );
+      samples.push({ fraction, distance });
+      previous = point;
+    }
+    return samples;
+  };
+
+  const screenDistanceAt = fraction => {
+    const scaledIndex = clamp(fraction) * (motion.screenPath.length - 1);
+    const lowerIndex = Math.floor(scaledIndex);
+    const upperIndex = Math.min(motion.screenPath.length - 1, lowerIndex + 1);
+    const mix = scaledIndex - lowerIndex;
+    return motion.screenPath[lowerIndex].distance
+      + (motion.screenPath[upperIndex].distance - motion.screenPath[lowerIndex].distance) * mix;
+  };
+
+  const fractionAtScreenDistance = target => {
+    const samples = motion.screenPath;
+    const clampedTarget = Math.min(samples.at(-1).distance, Math.max(0, target));
+    let low = 0;
+    let high = samples.length - 1;
+    while (low + 1 < high) {
+      const middle = Math.floor((low + high) / 2);
+      if (samples[middle].distance < clampedTarget) low = middle;
+      else high = middle;
+    }
+    const range = samples[high].distance - samples[low].distance || 1;
+    const mix = (clampedTarget - samples[low].distance) / range;
+    return samples[low].fraction + (samples[high].fraction - samples[low].fraction) * mix;
+  };
+
+  const configure = force => {
+    const isCompact = innerWidth <= 680;
+    if (!force && compact === isCompact) return;
+    compact = isCompact;
+
+    const mode = isCompact ? 'mobile' : 'desktop';
+    const bracketSpacingPx = isCompact ? 30 : 54;
+    const frontGapPx = isCompact ? 5 : 8;
+    const [wire, highlight] = motion.element.querySelectorAll('path');
+    wire.setAttribute('d', motion.paths[mode]);
+    highlight.setAttribute('d', motion.paths[mode]);
+
+    const viewBoxWidth = motion.element.viewBox.baseVal.width;
+    const renderedWidth = motion.element.getBoundingClientRect().width || viewBoxWidth;
+    const svgUnitsPerPixel = viewBoxWidth / renderedWidth;
+    motion.length = wire.getTotalLength();
+    motion.bracketSpacing = bracketSpacingPx * svgUnitsPerPixel / motion.length;
+    motion.frontGap = frontGapPx * svgUnitsPerPixel / motion.length;
+    motion.entryAnchorOffset = motion.frontGap
+      + motion.leadBracketCount * motion.bracketSpacing;
+    motion.wire = wire;
+    motion.assembly = motion.element.querySelector('.braces-assembly');
+    const brackets = motion.element.querySelector('.braces-brackets');
+    const bracketCount = motion.bracketCount[mode] + motion.leadBracketCount;
+    brackets.replaceChildren(...Array.from(
+      { length: bracketCount },
+      (_, index) => createBracket(index - motion.leadBracketCount, isCompact)
+    ));
+    motion.brackets = [...brackets.children];
+    motion.overhangPx = isCompact ? 8 : 12;
+    motion.screenPath = buildScreenPath();
+
+    motion.start = window.scrollY + cta.getBoundingClientRect().top - window.innerHeight * .72;
+    motion.duration = Math.max(
+      1,
+      document.documentElement.scrollHeight - window.innerHeight - motion.start
+    );
+  };
+
+  const placeBracket = (bracket, fraction) => {
+    const distance = clamp(fraction) * motion.length;
+    const point = motion.wire.getPointAtLength(distance);
+    const before = motion.wire.getPointAtLength(Math.max(0, distance - 2));
+    const after = motion.wire.getPointAtLength(Math.min(motion.length, distance + 2));
+    const angle = Math.atan2(after.y - before.y, after.x - before.x) * 180 / Math.PI;
+    bracket.setAttribute('transform', `translate(${point.x} ${point.y}) rotate(${angle})`);
+  };
+
+  const setWire = (start, end) => {
+    const windowLength = Math.max(0, end - start) * motion.length;
+    motion.element.querySelectorAll(
+      '.braces-wire-glow,.braces-wire-trail,.braces-wire,.braces-wire-highlight'
+    ).forEach(path => {
+      path.style.strokeDasharray = `${windowLength} ${motion.length + 1}`;
+      path.style.strokeDashoffset = String(-start * motion.length);
+    });
+  };
+
+  const setWireFromBrackets = bracketFractions => {
+    if (!bracketFractions.length) {
+      setWire(0, 0);
+      return;
+    }
+    const distances = bracketFractions.map(screenDistanceAt);
+    setWire(
+      fractionAtScreenDistance(Math.min(...distances) - motion.overhangPx),
+      fractionAtScreenDistance(Math.max(...distances) + motion.overhangPx)
+    );
+  };
+
+  const drawSmile = progress => {
+    const revealEnd = .65;
+    const holdEnd = .85;
+    const head = clamp(progress / revealEnd);
+    const fadeOut = progress <= holdEnd ? 1 : clamp((1 - progress) / (1 - holdEnd));
+
+    motion.element.style.opacity = progress > 0 ? fadeOut : 0;
+    motion.assembly.setAttribute('transform', `translate(${(1 - head) * -36} 0)`);
+    const visibleBrackets = [];
+    motion.brackets.forEach(bracket => {
+      const logicalIndex = Number(bracket.dataset.logicalIndex);
+      const position = head - motion.entryAnchorOffset - logicalIndex * motion.bracketSpacing;
+      const onPath = position >= 0 && position <= 1;
+      placeBracket(bracket, position);
+      bracket.style.opacity = onPath ? fadeOut : 0;
+      if (onPath) visibleBrackets.push(position);
+    });
+    setWireFromBrackets(visibleBrackets);
+  };
+
+  const updateTarget = () => {
+    motion.targetProgress = clamp((window.scrollY - motion.start) / motion.duration);
+  };
+
+  const render = () => {
+    frameRequested = false;
+    if (reducedMotion.matches) return;
+    const delta = motion.targetProgress - motion.currentProgress;
+    motion.currentProgress += delta * .18;
+    const settling = Math.abs(delta) >= .0005;
+    if (!settling) motion.currentProgress = motion.targetProgress;
+    drawSmile(motion.currentProgress);
+    if (settling) requestRender();
+  };
+
+  const requestRender = () => {
+    if (!frameRequested) {
+      frameRequested = true;
+      requestAnimationFrame(render);
+    }
+  };
+
+  addEventListener('scroll', () => {
+    updateTarget();
+    requestRender();
+  }, { passive: true });
+  addEventListener('resize', () => {
+    configure(true);
+    updateTarget();
+    requestRender();
+  }, { passive: true });
+  reducedMotion.addEventListener('change', requestRender);
+  configure(true);
+  updateTarget();
+  requestRender();
+})();
+</script>
 </body>
 </html>
