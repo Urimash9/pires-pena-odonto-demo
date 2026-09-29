@@ -430,7 +430,9 @@ section[id],
   opacity:0;
 }
 .braces-wire,
-.braces-wire-highlight{
+.braces-wire-highlight,
+.braces-wire-glow,
+.braces-wire-trail{
   fill:none;
   vector-effect:non-scaling-stroke;
   stroke-linecap:round;
@@ -438,17 +440,36 @@ section[id],
 }
 .braces-wire{
   stroke:#a79e93;
-  stroke-width:1.8;
-  opacity:.88;
+  stroke-width:1.85;
+  opacity:.92;
 }
+.hero-braces-motion .braces-wire{stroke:url(#hero-wire-metal)}
+.final-braces-motion .braces-wire{stroke:url(#final-wire-metal)}
 .braces-wire-highlight{
-  stroke:rgba(255,250,242,.70);
-  stroke-width:.6;
-  opacity:.72;
+  stroke:rgba(246,241,234,.82);
+  stroke-width:.62;
+  opacity:.78;
+}
+.braces-wire-trail{
+  stroke:rgba(239,225,207,.42);
+  stroke-width:2.7;
+  opacity:.34;
+}
+.braces-wire-glow{
+  stroke:rgba(222,199,169,.34);
+  stroke-width:4.2;
+  opacity:.28;
+}
+.hero-braces-motion .braces-wire-glow{filter:url(#hero-wire-glow)}
+.final-braces-motion .braces-wire-glow{filter:url(#final-wire-glow)}
+.braces-bracket-frame{
+  fill:none;
+  stroke:rgba(255,250,242,.48);
+  stroke-width:.5;
 }
 .braces-bracket{
   opacity:0;
-  filter:drop-shadow(0 1px 1px rgba(25,50,55,.14));
+  filter:drop-shadow(0 .8px .7px rgba(25,50,55,.16));
 }
 .hero-braces-motion .braces-bracket-body{fill:url(#hero-bracket-metal)}
 .final-braces-motion .braces-bracket-body{fill:url(#final-bracket-metal)}
@@ -469,8 +490,10 @@ section[id],
 .final-braces-motion{inset:auto 56px 16px;height:70px;width:calc(100% - 112px);z-index:1}
 
 @media(max-width:680px){
-  .braces-wire{stroke-width:1.6;opacity:.86}
-  .braces-wire-highlight{stroke-width:.5;opacity:.66}
+  .braces-wire{stroke-width:1.6;opacity:.9}
+  .braces-wire-highlight{stroke-width:.52;opacity:.72}
+  .braces-wire-trail{stroke-width:2.3;opacity:.28}
+  .braces-wire-glow{stroke-width:3.5;opacity:.22}
   .braces-bracket{filter:drop-shadow(0 .75px .75px rgba(25,50,55,.13))}
   .hero-braces-motion{height:62%}
   .cta-wrap{padding-bottom:78px}
@@ -598,12 +621,18 @@ section[id],
       <div class="hero-photo"><img src="assets/images/hero-atendimento-odontologico.png" alt="Atendimento odontológico"><span class="hero-handwritten">Sorrisos que transformam histórias</span>
         <svg class="hero-braces-motion" viewBox="0 0 1000 545" preserveAspectRatio="none" aria-hidden="true">
           <defs>
-            <linearGradient id="hero-bracket-metal" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#f2eee7"/><stop offset=".52" stop-color="#c9c0b5"/><stop offset="1" stop-color="#a79d91"/>
+            <linearGradient id="hero-wire-metal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#d9d0c5"/><stop offset=".48" stop-color="#a79e93"/><stop offset="1" stop-color="#8f877e"/>
             </linearGradient>
+            <linearGradient id="hero-bracket-metal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f5f0e9"/><stop offset=".28" stop-color="#ddd5cb"/><stop offset=".58" stop-color="#bfb5a9"/><stop offset="1" stop-color="#92897f"/>
+            </linearGradient>
+            <filter id="hero-wire-glow" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="2.1"/></filter>
           </defs>
           <g class="braces-assembly">
-            <path class="braces-wire"/>
+            <use class="braces-wire-glow" href="#hero-wire-path"/>
+            <use class="braces-wire-trail" href="#hero-wire-path"/>
+            <path class="braces-wire" id="hero-wire-path"/>
             <path class="braces-wire-highlight"/>
             <g class="braces-brackets"></g>
           </g>
@@ -688,12 +717,18 @@ section[id],
       <section class="cta"><div><div class="eyebrow" style="color:#cce4df">Seu sorriso em boas mãos</div><h2 class="serif">Pronto para cuidar do seu sorriso?</h2><p>Converse com a equipe e agende sua avaliação.</p></div><a class="btn" href="https://wa.me/5534998972712" target="_blank" rel="noopener">Agendar pelo WhatsApp →</a></section>
       <svg class="final-braces-motion" viewBox="0 0 1068 70" preserveAspectRatio="none" aria-hidden="true">
         <defs>
-          <linearGradient id="final-bracket-metal" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#eee9e1"/><stop offset=".52" stop-color="#c2b8ac"/><stop offset="1" stop-color="#9f9589"/>
+          <linearGradient id="final-wire-metal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#cec4b8"/><stop offset=".48" stop-color="#9f968b"/><stop offset="1" stop-color="#857d74"/>
           </linearGradient>
+          <linearGradient id="final-bracket-metal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f0ebe3"/><stop offset=".28" stop-color="#d5cdc2"/><stop offset=".58" stop-color="#b6ab9f"/><stop offset="1" stop-color="#887f75"/>
+            </linearGradient>
+          <filter id="final-wire-glow" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="1.8"/></filter>
         </defs>
         <g class="braces-assembly">
-          <path class="braces-wire"/>
+          <use class="braces-wire-glow" href="#final-wire-path"/>
+          <use class="braces-wire-trail" href="#final-wire-path"/>
+          <path class="braces-wire" id="final-wire-path"/>
           <path class="braces-wire-highlight"/>
           <g class="braces-brackets"></g>
         </g>
@@ -747,6 +782,7 @@ section[id],
   const createBracket = (logicalIndex, small) => {
     const group = document.createElementNS(svgNamespace, 'g');
     const body = document.createElementNS(svgNamespace, 'rect');
+    const frame = document.createElementNS(svgNamespace, 'rect');
     const slot = document.createElementNS(svgNamespace, 'rect');
     const highlight = document.createElementNS(svgNamespace, 'line');
     const width = small ? 12 : 14;
@@ -755,6 +791,7 @@ section[id],
     group.classList.add('braces-bracket');
     group.dataset.logicalIndex = logicalIndex;
     body.classList.add('braces-bracket-body');
+    frame.classList.add('braces-bracket-frame');
     slot.classList.add('braces-bracket-slot');
     highlight.classList.add('braces-bracket-highlight');
     body.setAttribute('x', -width / 2);
@@ -762,6 +799,11 @@ section[id],
     body.setAttribute('width', width);
     body.setAttribute('height', height);
     body.setAttribute('rx', '2.5');
+    frame.setAttribute('x', -width * .36);
+    frame.setAttribute('y', -height * .34);
+    frame.setAttribute('width', width * .72);
+    frame.setAttribute('height', height * .68);
+    frame.setAttribute('rx', '1.6');
     slot.setAttribute('x', -width * .32);
     slot.setAttribute('y', '-1');
     slot.setAttribute('width', width * .64);
@@ -771,7 +813,7 @@ section[id],
     highlight.setAttribute('y1', -height * .24);
     highlight.setAttribute('x2', width * .22);
     highlight.setAttribute('y2', -height * .24);
-    group.append(body, slot, highlight);
+    group.append(body, frame, slot, highlight);
     return group;
   };
 
@@ -898,7 +940,9 @@ section[id],
 
   const setWire = (motion, tail, head) => {
     const windowLength = Math.max(0, head - tail) * motion.length;
-    [motion.wire, motion.highlight].forEach(path => {
+    motion.element.querySelectorAll(
+      '.braces-wire-glow,.braces-wire-trail,.braces-wire,.braces-wire-highlight'
+    ).forEach(path => {
       path.style.strokeDasharray = `${windowLength} ${motion.length + 1}`;
       path.style.strokeDashoffset = String(-tail * motion.length);
     });
