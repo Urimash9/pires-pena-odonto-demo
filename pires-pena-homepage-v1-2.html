@@ -922,7 +922,20 @@ section[id],
       bracket.style.opacity = inWindow ? fadeOut : 0;
       if (inWindow) visibleBrackets.push(position);
     });
-    setWireFromBrackets(motion, visibleBrackets);
+    if (compact && visibleBrackets.length) {
+      const firstFraction = Math.min(...visibleBrackets);
+      const lastFraction = Math.max(...visibleBrackets);
+      const mobileOverhang = motion.bracketSpacing * .20;
+      setWire(
+        motion,
+        clamp(firstFraction - mobileOverhang),
+        clamp(lastFraction + mobileOverhang)
+      );
+    } else if (compact) {
+      setWire(motion, 0, 0);
+    } else {
+      setWireFromBrackets(motion, visibleBrackets);
+    }
   };
 
   const drawSmile = (motion, progress) => {
