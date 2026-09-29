@@ -702,8 +702,8 @@ section[id],
       element: document.querySelector('.hero-braces-motion'),
       trigger: hero,
       paths: {
-        desktop: 'M 940 62 C 950 152 900 218 790 250 C 650 292 500 288 260 350',
-        mobile: 'M 920 70 C 930 148 882 205 800 230 C 665 271 515 265 300 320'
+        desktop: 'M 940 62 C 955 240 915 330 800 365 C 650 415 500 425 260 485',
+        mobile: 'M 920 70 C 935 225 900 305 800 340 C 665 390 515 400 300 455'
       },
       bracketCount: { desktop: 7, mobile: 6 },
       behavior: 'moving-window'
@@ -770,7 +770,7 @@ section[id],
     });
 
     motions[0].start = 0;
-    motions[0].duration = hero.offsetHeight * (isCompact ? .85 : .75);
+    motions[0].duration = hero.offsetHeight * (isCompact ? .40 : .42);
     motions[1].start = window.scrollY + cta.getBoundingClientRect().top - window.innerHeight * .88;
     motions[1].duration = Math.max(1, document.documentElement.scrollHeight - window.innerHeight - motions[1].start);
   };
@@ -816,7 +816,7 @@ section[id],
     const revealEnd = .58;
     const holdEnd = .80;
     const head = clamp(progress / revealEnd);
-    const frontGap = .025;
+    const frontGap = .01;
     const spacing = (1 - frontGap * 2) / (motion.brackets.length - 1);
     const fadeOut = progress <= holdEnd ? 1 : clamp((1 - progress) / (1 - holdEnd));
 
