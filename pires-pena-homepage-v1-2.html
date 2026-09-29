@@ -706,6 +706,7 @@ section[id],
         mobile: 'M 920 70 C 935 225 900 305 800 340 C 665 390 515 400 300 455'
       },
       bracketCount: { desktop: 11, mobile: 10 },
+      leadBracketCount: 5,
       behavior: 'moving-window'
     },
     {
@@ -716,6 +717,7 @@ section[id],
         mobile: 'M -30 7 C 245 57 823 57 1098 7'
       },
       bracketCount: { desktop: 18, mobile: 13 },
+      leadBracketCount: 4,
       behavior: 'reveal-hold-fade'
     }
   ];
@@ -723,7 +725,7 @@ section[id],
   let compact = null;
 
   const clamp = value => Math.min(1, Math.max(0, value));
-  const createBracket = (index, small) => {
+  const createBracket = (logicalIndex, small) => {
     const group = document.createElementNS(svgNamespace, 'g');
     const body = document.createElementNS(svgNamespace, 'rect');
     const slot = document.createElementNS(svgNamespace, 'rect');
@@ -731,7 +733,7 @@ section[id],
     const height = small ? 14 : 16;
 
     group.classList.add('braces-bracket');
-    group.dataset.index = index;
+    group.dataset.logicalIndex = logicalIndex;
     body.setAttribute('x', -width / 2);
     body.setAttribute('y', -height / 2);
     body.setAttribute('width', width);
@@ -776,7 +778,12 @@ section[id],
       const bracketCount = motion.behavior === 'moving-window'
         ? requiredBracketCount
         : motion.bracketCount[mode];
-      brackets.replaceChildren(...Array.from({ length: bracketCount }, (_, index) => createBracket(index, isCompact)));
+      const totalBracketCount = bracketCount + motion.leadBracketCount;
+      brackets.replaceChildren(...Array.from(
+        { length: totalBracketCount },
+        (_, index) => createBracket(index - motion.leadBracketCount, isCompact)
+      ));
+      motion.baseBracketCount = bracketCount;
       motion.wire = wire;
       motion.highlight = highlight;
       motion.assembly = motion.element.querySelector('.braces-assembly');
@@ -819,7 +826,8 @@ section[id],
     motion.assembly.setAttribute('transform', `translate(${(1 - progress) * -8} 0)`);
     setWire(motion, tail, head);
     motion.brackets.forEach(bracket => {
-      const position = head - motion.frontGap - Number(bracket.dataset.index) * motion.bracketSpacing;
+      const sequenceIndex = Number(bracket.dataset.logicalIndex) + motion.leadBracketCount;
+      const position = head - motion.frontGap - sequenceIndex * motion.bracketSpacing;
       const inWindow = position >= tail && position <= head && position >= 0 && position <= 1;
       placeBracket(motion, bracket, position);
       bracket.style.opacity = inWindow ? fadeOut : 0;
@@ -836,7 +844,8 @@ section[id],
     motion.assembly.setAttribute('transform', `translate(${(1 - head) * -36} 0)`);
     setWire(motion, 0, head);
     motion.brackets.forEach(bracket => {
-      const position = head - motion.frontGap - Number(bracket.dataset.index) * motion.bracketSpacing;
+      const sequenceIndex = Number(bracket.dataset.logicalIndex) + motion.leadBracketCount;
+      const position = head - motion.frontGap - sequenceIndex * motion.bracketSpacing;
       const onPath = position >= 0 && position <= 1;
       placeBracket(motion, bracket, position);
       bracket.style.opacity = onPath ? fadeOut : 0;
