@@ -702,10 +702,10 @@ section[id],
       element: document.querySelector('.hero-braces-motion'),
       trigger: hero,
       paths: {
-        desktop: 'M 980 34 C 850 26 780 70 675 112 C 520 174 325 165 65 258',
-        mobile: 'M 960 42 C 850 28 770 70 640 105 C 470 151 285 146 75 205'
+        desktop: 'M 940 62 C 950 152 900 218 790 250 C 650 292 500 288 260 350',
+        mobile: 'M 920 70 C 930 148 882 205 800 230 C 665 271 515 265 300 320'
       },
-      points: { desktop: [.10,.23,.36,.49,.62,.75,.88], mobile: [.12,.28,.44,.60,.76,.90] },
+      bracketCount: { desktop: 7, mobile: 6 },
       behavior: 'moving-window'
     },
     {
@@ -715,7 +715,7 @@ section[id],
         desktop: 'M -30 8 C 250 76 818 76 1098 8',
         mobile: 'M -30 7 C 245 57 823 57 1098 7'
       },
-      points: { desktop: [.025,.12,.23,.34,.45,.56,.67,.78,.89,.975], mobile: [.025,.18,.34,.50,.66,.82,.975] },
+      bracketCount: { desktop: 10, mobile: 7 },
       behavior: 'reveal-hold-fade'
     }
   ];
@@ -723,7 +723,7 @@ section[id],
   let compact = null;
 
   const clamp = value => Math.min(1, Math.max(0, value));
-  const createBracket = (fraction, small) => {
+  const createBracket = (index, small) => {
     const group = document.createElementNS(svgNamespace, 'g');
     const body = document.createElementNS(svgNamespace, 'rect');
     const slot = document.createElementNS(svgNamespace, 'rect');
@@ -731,7 +731,7 @@ section[id],
     const height = small ? 14 : 16;
 
     group.classList.add('braces-bracket');
-    group.dataset.point = fraction;
+    group.dataset.index = index;
     body.setAttribute('x', -width / 2);
     body.setAttribute('y', -height / 2);
     body.setAttribute('width', width);
@@ -757,7 +757,7 @@ section[id],
       const brackets = motion.element.querySelector('.braces-brackets');
       wire.setAttribute('d', motion.paths[mode]);
       highlight.setAttribute('d', motion.paths[mode]);
-      brackets.replaceChildren(...motion.points[mode].map(point => createBracket(point, isCompact)));
+      brackets.replaceChildren(...Array.from({ length: motion.bracketCount[mode] }, (_, index) => createBracket(index, isCompact)));
 
       const length = wire.getTotalLength();
       motion.length = length;
@@ -794,17 +794,18 @@ section[id],
 
   const drawMovingWindow = (motion, progress) => {
     const trail = compact ? .50 : .44;
+    const frontGap = .025;
     const immediateProgress = Math.pow(progress, .55);
     const head = Math.min(1, immediateProgress * 1.16);
     const tail = Math.max(0, head - trail);
+    const spacing = (trail - frontGap * 2) / (motion.brackets.length - 1);
     const fadeOut = clamp((1 - progress) / .08);
 
     motion.element.style.opacity = progress > 0 ? fadeOut : 0;
     motion.assembly.setAttribute('transform', `translate(${(1 - progress) * -8} 0)`);
     setWire(motion, tail, head);
     motion.brackets.forEach(bracket => {
-      const slot = Number(bracket.dataset.point);
-      const position = head - (1 - slot) * trail;
+      const position = head - frontGap - Number(bracket.dataset.index) * spacing;
       const inWindow = position >= tail && position <= head && position >= 0 && position <= 1;
       placeBracket(motion, bracket, position);
       bracket.style.opacity = inWindow ? fadeOut : 0;
@@ -815,15 +816,18 @@ section[id],
     const revealEnd = .58;
     const holdEnd = .80;
     const head = clamp(progress / revealEnd);
+    const frontGap = .025;
+    const spacing = (1 - frontGap * 2) / (motion.brackets.length - 1);
     const fadeOut = progress <= holdEnd ? 1 : clamp((1 - progress) / (1 - holdEnd));
 
     motion.element.style.opacity = progress > 0 ? fadeOut : 0;
     motion.assembly.setAttribute('transform', `translate(${(1 - head) * -36} 0)`);
     setWire(motion, 0, head);
     motion.brackets.forEach(bracket => {
-      const position = Number(bracket.dataset.point);
+      const position = head - frontGap - Number(bracket.dataset.index) * spacing;
+      const onPath = position >= 0 && position <= 1;
       placeBracket(motion, bracket, position);
-      bracket.style.opacity = position <= head ? fadeOut : 0;
+      bracket.style.opacity = onPath ? fadeOut : 0;
     });
   };
 
