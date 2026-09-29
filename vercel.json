@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/pires-pena-homepage-v1-2.html"
+    }
+  ]
+}
