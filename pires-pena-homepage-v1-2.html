@@ -437,33 +437,41 @@ section[id],
   stroke-linejoin:round;
 }
 .braces-wire{
-  stroke:#b9afa1;
-  stroke-width:2.2;
+  stroke:#a79e93;
+  stroke-width:1.8;
+  opacity:.88;
 }
 .braces-wire-highlight{
-  stroke:rgba(255,252,244,.88);
-  stroke-width:.8;
+  stroke:rgba(255,250,242,.70);
+  stroke-width:.6;
+  opacity:.72;
 }
 .braces-bracket{
   opacity:0;
+  filter:drop-shadow(0 1px 1px rgba(25,50,55,.14));
 }
-.braces-bracket rect:first-child{
-  fill:#c9c0b3;
-  stroke:#f1ebe1;
-  stroke-width:1;
+.hero-braces-motion .braces-bracket-body{fill:url(#hero-bracket-metal)}
+.final-braces-motion .braces-bracket-body{fill:url(#final-bracket-metal)}
+.braces-bracket-body{
+  stroke:rgba(247,242,232,.76);
+  stroke-width:.65;
 }
-.braces-bracket rect:last-child{
-  fill:#827b72;
+.braces-bracket-slot{
+  fill:rgba(91,84,76,.60);
   stroke:none;
+}
+.braces-bracket-highlight{
+  stroke:rgba(255,250,242,.68);
+  stroke-width:.65;
+  stroke-linecap:round;
 }
 .cta-wrap{position:relative;overflow:hidden;padding-bottom:104px}
 .final-braces-motion{inset:auto 56px 16px;height:70px;width:calc(100% - 112px);z-index:1}
 
 @media(max-width:680px){
-  .braces-wire{stroke-width:1.8}
-  .braces-wire-highlight{stroke-width:.65}
-  .hero-braces-motion .braces-wire{stroke:#9f9587}
-  .hero-braces-motion .braces-bracket rect:first-child{fill:#b9afa2;stroke:#fffaf0}
+  .braces-wire{stroke-width:1.6;opacity:.86}
+  .braces-wire-highlight{stroke-width:.5;opacity:.66}
+  .braces-bracket{filter:drop-shadow(0 .75px .75px rgba(25,50,55,.13))}
   .hero-braces-motion{height:62%}
   .cta-wrap{padding-bottom:78px}
   .final-braces-motion{inset:auto 18px 14px;height:50px;width:calc(100% - 36px)}
@@ -589,6 +597,11 @@ section[id],
       </div>
       <div class="hero-photo"><img src="assets/images/hero-atendimento-odontologico.png" alt="Atendimento odontológico"><span class="hero-handwritten">Sorrisos que transformam histórias</span>
         <svg class="hero-braces-motion" viewBox="0 0 1000 545" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="hero-bracket-metal" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f2eee7"/><stop offset=".52" stop-color="#c9c0b5"/><stop offset="1" stop-color="#a79d91"/>
+            </linearGradient>
+          </defs>
           <g class="braces-assembly">
             <path class="braces-wire"/>
             <path class="braces-wire-highlight"/>
@@ -674,6 +687,11 @@ section[id],
     <div class="cta-wrap" id="contato">
       <section class="cta"><div><div class="eyebrow" style="color:#cce4df">Seu sorriso em boas mãos</div><h2 class="serif">Pronto para cuidar do seu sorriso?</h2><p>Converse com a equipe e agende sua avaliação.</p></div><a class="btn" href="https://wa.me/5534998972712" target="_blank" rel="noopener">Agendar pelo WhatsApp →</a></section>
       <svg class="final-braces-motion" viewBox="0 0 1068 70" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="final-bracket-metal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#eee9e1"/><stop offset=".52" stop-color="#c2b8ac"/><stop offset="1" stop-color="#9f9589"/>
+          </linearGradient>
+        </defs>
         <g class="braces-assembly">
           <path class="braces-wire"/>
           <path class="braces-wire-highlight"/>
@@ -730,22 +748,30 @@ section[id],
     const group = document.createElementNS(svgNamespace, 'g');
     const body = document.createElementNS(svgNamespace, 'rect');
     const slot = document.createElementNS(svgNamespace, 'rect');
-    const width = small ? 17 : 20;
-    const height = small ? 14 : 16;
+    const highlight = document.createElementNS(svgNamespace, 'line');
+    const width = small ? 12 : 14;
+    const height = small ? 10 : 12;
 
     group.classList.add('braces-bracket');
     group.dataset.logicalIndex = logicalIndex;
+    body.classList.add('braces-bracket-body');
+    slot.classList.add('braces-bracket-slot');
+    highlight.classList.add('braces-bracket-highlight');
     body.setAttribute('x', -width / 2);
     body.setAttribute('y', -height / 2);
     body.setAttribute('width', width);
     body.setAttribute('height', height);
-    body.setAttribute('rx', '3');
+    body.setAttribute('rx', '2.5');
     slot.setAttribute('x', -width * .32);
-    slot.setAttribute('y', '-1.4');
+    slot.setAttribute('y', '-1');
     slot.setAttribute('width', width * .64);
-    slot.setAttribute('height', '2.8');
-    slot.setAttribute('rx', '1.4');
-    group.append(body, slot);
+    slot.setAttribute('height', '2');
+    slot.setAttribute('rx', '1');
+    highlight.setAttribute('x1', -width * .28);
+    highlight.setAttribute('y1', -height * .24);
+    highlight.setAttribute('x2', width * .22);
+    highlight.setAttribute('y2', -height * .24);
+    group.append(body, slot, highlight);
     return group;
   };
 
