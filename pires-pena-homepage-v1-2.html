@@ -803,7 +803,7 @@ section[id],
   let compact = null;
 
   const clamp = value => Math.min(1, Math.max(0, value));
-  const createBracket = (logicalIndex, small) => {
+  const createBracket = (logicalIndex, small, preserveVisualRatio = false) => {
     const group = document.createElementNS(svgNamespace, 'g');
     const width = small ? 15 : 16.5;
     const height = small ? 12 : 13.5;
@@ -842,7 +842,14 @@ section[id],
     const specular = svgElement('line', 'bracket-specular', {
       x1: -width * .28, y1: -height * .31, x2: -width * .1, y2: -height * .31
     });
-    group.append(
+    const visual = preserveVisualRatio
+      ? document.createElementNS(svgNamespace, 'g')
+      : group;
+    if (preserveVisualRatio) {
+      visual.classList.add('braces-bracket-visual');
+      group.append(visual);
+    }
+    visual.append(
       base, ...wings, slotShadow, slotInner,
       localWireShadow, localWire, localWireHighlight,
       ligatureShadow, ligature, specular
@@ -938,7 +945,8 @@ section[id],
         { length: totalBracketCount },
         (_, index) => createBracket(
           motion.behavior === 'moving-window' ? index : index - motion.leadBracketCount,
-          isCompact
+          isCompact,
+          motion.behavior === 'moving-window'
         )
       ));
       motion.baseBracketCount = bracketCount;
@@ -946,6 +954,16 @@ section[id],
       motion.highlight = highlight;
       motion.assembly = motion.element.querySelector('.braces-assembly');
       motion.brackets = [...brackets.children];
+      if (motion.behavior === 'moving-window') {
+        const rect = motion.element.getBoundingClientRect();
+        const viewBox = motion.element.viewBox.baseVal;
+        motion.bracketRenderScaleX = rect.width / viewBox.width;
+        motion.bracketRenderScaleY = rect.height / viewBox.height;
+        motion.bracketVisualWidth = isCompact ? 13.5 : 15.5;
+        motion.bracketVisualHeight = isCompact ? 11 : 12.7;
+        motion.bracketUnitWidth = isCompact ? 15 : 16.5;
+        motion.bracketUnitHeight = isCompact ? 12 : 13.5;
+      }
       motion.overhangPx = isCompact ? 8 : 12;
       motion.screenPath = buildScreenPath(motion);
       if (motion.behavior === 'moving-window') {
@@ -969,6 +987,25 @@ section[id],
     const after = motion.wire.getPointAtLength(Math.min(motion.length, distance + 2));
     const angle = Math.atan2(after.y - before.y, after.x - before.x) * 180 / Math.PI;
     bracket.setAttribute('transform', `translate(${point.x} ${point.y}) rotate(${angle})`);
+    const visual = bracket.querySelector('.braces-bracket-visual');
+    if (visual) {
+      const radians = angle * Math.PI / 180;
+      const cosine = Math.cos(radians);
+      const sine = Math.sin(radians);
+      const localXScale = Math.hypot(
+        motion.bracketRenderScaleX * cosine,
+        motion.bracketRenderScaleY * sine
+      );
+      const localYScale = Math.hypot(
+        motion.bracketRenderScaleX * sine,
+        motion.bracketRenderScaleY * cosine
+      );
+      const visualScaleX = motion.bracketVisualWidth
+        / (motion.bracketUnitWidth * localXScale);
+      const visualScaleY = motion.bracketVisualHeight
+        / (motion.bracketUnitHeight * localYScale);
+      visual.setAttribute('transform', `scale(${visualScaleX} ${visualScaleY})`);
+    }
   };
 
   const setWire = (motion, tail, head) => {
