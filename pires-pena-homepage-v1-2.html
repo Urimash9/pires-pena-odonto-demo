@@ -507,14 +507,6 @@ section[id],
   opacity:0;
   filter:drop-shadow(0 .8px .85px rgba(25,38,40,.24));
 }
-.hero-braces-motion .braces-bracket{
-  filter:drop-shadow(0 .55px .65px rgba(25,38,40,.17));
-}
-.hero-braces-motion .bracket-base{opacity:.86}
-.hero-braces-motion .bracket-wing{stroke-opacity:.74}
-.hero-braces-motion .bracket-ligature-shadow{stroke-opacity:.72}
-.hero-braces-motion .bracket-ligature{stroke-opacity:.88}
-.hero-braces-motion .bracket-specular{stroke-opacity:.84}
 .bracket-specular{
   stroke:rgba(250,251,251,.96);
   stroke-width:.7;
@@ -529,7 +521,6 @@ section[id],
   .braces-wire-trail{stroke-width:2.05;opacity:.74}
   .braces-wire-glow{stroke-width:2.35;opacity:.44}
   .braces-bracket{filter:drop-shadow(0 .65px .7px rgba(25,38,40,.22))}
-  .hero-braces-motion .braces-bracket{filter:drop-shadow(0 .45px .55px rgba(25,38,40,.15))}
   .hero-braces-motion{height:62%}
   .cta-wrap{padding-bottom:78px}
   .final-braces-motion{inset:auto 18px 14px;height:50px;width:calc(100% - 36px)}
@@ -921,6 +912,14 @@ section[id],
     if (!force && compact === isCompact) return;
     compact = isCompact;
 
+    const bracketUnitWidth = isCompact ? 15 : 16.5;
+    const bracketUnitHeight = isCompact ? 12 : 13.5;
+    const ctaSvg = motions[1].element;
+    const ctaRect = ctaSvg.getBoundingClientRect();
+    const ctaViewBox = ctaSvg.viewBox.baseVal;
+    const referenceBracketWidth = bracketUnitWidth * ctaRect.width / ctaViewBox.width;
+    const referenceBracketHeight = bracketUnitHeight * ctaRect.height / ctaViewBox.height;
+
     motions.forEach(motion => {
       const mode = isCompact ? 'mobile' : 'desktop';
       const [wire, highlight] = motion.element.querySelectorAll('path');
@@ -968,10 +967,10 @@ section[id],
         const viewBox = motion.element.viewBox.baseVal;
         motion.bracketRenderScaleX = rect.width / viewBox.width;
         motion.bracketRenderScaleY = rect.height / viewBox.height;
-        motion.bracketVisualWidth = isCompact ? 12 : 13.75;
-        motion.bracketVisualHeight = isCompact ? 9.8 : 11.25;
-        motion.bracketUnitWidth = isCompact ? 15 : 16.5;
-        motion.bracketUnitHeight = isCompact ? 12 : 13.5;
+        motion.bracketVisualWidth = referenceBracketWidth;
+        motion.bracketVisualHeight = referenceBracketHeight;
+        motion.bracketUnitWidth = bracketUnitWidth;
+        motion.bracketUnitHeight = bracketUnitHeight;
       }
       motion.overhangPx = isCompact ? 8 : 12;
       motion.screenPath = buildScreenPath(motion);
